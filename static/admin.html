@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
+    <title>Admin</title>
 </head>
 
 <body>
@@ -18,34 +19,34 @@
             <div class="form-wrapper">
                 <div class="row m-b-30 form-group">
                     <div class="col-12 text-center">Intitulé de la question</div>
-                    <input type="text" class="form-control col-10 offset-1">
+                    <input type="text" class="form-control col-10 offset-1" id="newQuestion">
                 </div>
                 <div class="row">
                     <div class="col-10 text-center">Intitulé des réponses</div>
                     <div class="col-2 text-center">Correct</div>
                 </div>
                 <div class="form-group row m-b-30">
-                    <input type="text" class="form-control col-9 offset-1">
+                    <input type="text" class="form-control col-9 offset-1" id="newAnswer1">
                     <div class="col-2 text-center">
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" name="" id="newAnswer1Correct">
                     </div>
                 </div>
                 <div class="form-group row m-b-30">
-                    <input type="text" class="form-control col-9 offset-1">
+                    <input type="text" class="form-control col-9 offset-1" id="newAnswer2">
                     <div class="col-2 text-center">
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" name="" id="newAnswer2Correct">
                     </div>
                 </div>
                 <div class="form-group row m-b-30">
-                    <input type="text" class="form-control col-9 offset-1">
+                    <input type="text" class="form-control col-9 offset-1" id="newAnswer3">
                     <div class="col-2 text-center">
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" name="" id="newAnswer3Correct">
                     </div>
                 </div>
                 <div class="form-group row m-b-30">
-                    <input type="text" class="form-control col-9 offset-1">
+                    <input type="text" class="form-control col-9 offset-1" id="newAnswer4">
                     <div class="col-2 text-center">
-                        <input type="checkbox" name="" id="">
+                        <input type="checkbox" name="" id="newAnswer4Correct">
                     </div>
                 </div>
                 <div class="text-center">
@@ -73,6 +74,39 @@
         </div>
 
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+
+    <script>
+        var newQuestion = document.getElementById('newQuestion');
+        var newAnswer1 = document.getElementById('newAnswer1');
+        var newAnswer2 = document.getElementById('newAnswer2');
+        var newAnswer3 = document.getElementById('newAnswer3');
+        var newAnswer4 = document.getElementById('newAnswer4');
+        var newAnswer1Correct = document.getElementById('newAnswer1Correct');
+        var newAnswer2Correct = document.getElementById('newAnswer2Correct');
+        var newAnswer3Correct = document.getElementById('newAnswer3Correct');
+        var newAnswer4Correct = document.getElementById('newAnswer4Correct');
+
+        var question = {
+            title: newQuestion,
+            answers: [{
+                title: newAnswer1,
+                correct: newAnswer1Correct
+            }, 
+            {
+                title: newAnswer2,
+                correct: newAnswer2Correct
+            }, 
+            {
+                title: newAnswer3,
+                correct: newAnswer3Correct
+            }, 
+            {
+                title: newAnswer4,
+                correct: newAnswer4Correct
+            }]
+        }
+    </script>
 </body>
 
 </html>
