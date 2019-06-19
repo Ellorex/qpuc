@@ -1,12 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-    
+    <div class="container m-b-30 ">
+        <h1>Questions pour un champion :</br>Interface administrateur</h1>
+        <div class="bloc">
+            <h2>Ajout de nouvelles questions</h2>
+            <div class="form-wrapper">
+                <div class="row m-b-30 form-group">
+                    <div class="col-12 text-center">Intitulé de la question</div>
+                    <input type="text" class="form-control col-10 offset-1">
+                </div>
+                <div class="row">
+                    <div class="col-10 text-center">Intitulé des réponses</div>
+                    <div class="col-2 text-center">Correct</div>
+                </div>
+                <div class="form-group row m-b-30">
+                    <input type="text" class="form-control col-9 offset-1">
+                    <div class="col-2 text-center">
+                        <input type="checkbox" name="" id="">
+                    </div>
+                </div>
+                <div class="form-group row m-b-30">
+                    <input type="text" class="form-control col-9 offset-1">
+                    <div class="col-2 text-center">
+                        <input type="checkbox" name="" id="">
+                    </div>
+                </div>
+                <div class="form-group row m-b-30">
+                    <input type="text" class="form-control col-9 offset-1">
+                    <div class="col-2 text-center">
+                        <input type="checkbox" name="" id="">
+                    </div>
+                </div>
+                <div class="form-group row m-b-30">
+                    <input type="text" class="form-control col-9 offset-1">
+                    <div class="col-2 text-center">
+                        <input type="checkbox" name="" id="">
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-outline-info">Envoyer la question</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bloc">
+            <h2 class="text-center">Envoyer une question dans la room</h2>
+            <div class="form-wrapper">
+                <div class="input-group">
+                    <select class="custom-select" id="">
+                        <option selected>Choose...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-info" type="button">Envoyer la question</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </body>
+
 </html>

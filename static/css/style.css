@@ -1,0 +1,21 @@
+h1 {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.bloc {
+    margin-top: 30px;
+    border: 1px solid lightgrey;
+}
+.bloc h2 {
+    background-color: #c9c5c5;
+    text-align: center;
+    padding: 15px;
+}
+.form-wrapper {
+    padding: 15px;
+}
+
+.m-b-30 {
+    margin-bottom: 30px;
+}
