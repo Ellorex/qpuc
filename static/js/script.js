@@ -33,7 +33,7 @@ var question = {
 }
 
 submitNewQuestion.addEventListener('click', (e) => {
-    var question = {
+    question = {
         title: newQuestion.value,
         answers: [{
             title: newAnswer1.value,
@@ -52,6 +52,9 @@ submitNewQuestion.addEventListener('click', (e) => {
             correct: newAnswer4Correct.checked
         }]
     }
+    socket.emit('insertQuestions', {
+        question
+    })
     console.log(question);
 
 })
