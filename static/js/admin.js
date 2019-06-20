@@ -11,6 +11,7 @@ var newAnswer3Correct = document.getElementById('newAnswer3Correct');
 var newAnswer4Correct = document.getElementById('newAnswer4Correct');
 
 var submitNewQuestion = document.getElementById('submitNewQuestion');
+var sendQuestion = document.getElementById('sendQuestion');
 
 var selectQuestions = document.getElementById('selectQuestions');
 
@@ -39,19 +40,24 @@ submitNewQuestion.addEventListener('click', (e) => {
 })
 
 socket.on('loadQuestions', data => {
-    
-    var res = [];
-    var options_str = "";
 
-    if(data.length > 0) {
+    var res = [];
+    var options_str = '<option value="">-- Sélectionner une question --</option>';
+
+    if (data.length > 0) {
         for (var i = 0; i < data.length; i++) {
             res.push(data[i].title)
         }
     }
 
-    for (var i = 0; i < res.length; i++)  {
+    for (var i = 0; i < res.length; i++) {
         options_str += '<option value="' + res[i] + '">' + res[i] + '</option>';
     }
 
     selectQuestions.innerHTML = options_str
+
+    sendQuestion.addEventListener('click', (e) => {
+        console.log(selectQuestions.value)
+    })
 })
+
