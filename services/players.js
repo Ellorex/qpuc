@@ -57,7 +57,7 @@ class PlayersService {
                     return;
                 }
 
-                const player = new Player(name, score);
+                const player = new Player(name, result);
                 resolve(player);
             });
         });
@@ -75,7 +75,7 @@ class PlayersService {
         }
 
         return new Promise((resolve, reject) => {
-            redis.zadd(PLAYERS_KEY, name, score, (err, result) => {
+            redis.zadd(PLAYERS_KEY, score, name, (err, result) => {
                 if (err) {
                     reject(err);
                     return;
