@@ -48,6 +48,7 @@ class PlayerAnswersService {
                     return;
                 }
 
+                result.points = parseInt(result.points);
                 resolve(result);
             });
         });
