@@ -10,5 +10,9 @@ module.exports = (io) => {
                 console.log(data);
             })
         })
+
+        client.on('insertExistQuestion', data => {
+            io.emit('insertExistQuestion', data);
+        })
     });
 };

@@ -2,40 +2,7 @@ const redis = require("../db/redis");
 
 const PLAYERS_KEY = "players";
 
-class Player {
-    /** @type { string } */
-    name;
-
-    /** @type { number } */
-    points;
-
-    /**
-     * @param { string } name
-     * @param { number } score
-     */
-    constructor(name, score) {
-        if (name) this.name = name;
-        if (score) this.score = score;
-    }
-
-    /**
-     * @param { number } score
-     */
-    updateScore(score) {
-        return new Promise((resolve, reject) => {
-            redis.zadd(PLAYERS_KEY, this.name, score, (err, result) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-
-                resolve();
-            });
-        });
-    }
-}
-
-class Players {
+class PlayersService {
     /**
      * @param { string } name
      * @returns { boolean } returns false if the player already exists
@@ -107,7 +74,16 @@ class Players {
             throw new Error(`Player '${player}' does not exist`);
         }
 
-        await player.updateScore(score);
+        return new Promise((resolve, reject) => {
+            redis.zadd(PLAYERS_KEY, name, score, (err, result) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve();
+            });
+        });
     }
 
     /**
@@ -133,7 +109,4 @@ class Players {
     }
 }
 
-module.exports = {
-    Player,
-    Players
-}
+module.exports = new PlayersService();
