@@ -4,6 +4,9 @@ class Player {
     /** @type { string } */
     name;
 
+    /** @type { number } */
+    score;
+
     /**
      * @param { string } name
      * @param { number } score
@@ -22,6 +25,7 @@ class Player {
             return null;
         }
 
+        this.score = player.score;
         return player.score;
     }
 
@@ -30,6 +34,7 @@ class Player {
      */
     async updateScore(score) {
         await playersService.updatePlayerScore(this.name, score);
+        this.score = score;
     }
 }
 
