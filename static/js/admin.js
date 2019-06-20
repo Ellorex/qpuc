@@ -44,20 +44,26 @@ socket.on('loadQuestions', data => {
     var res = [];
     var options_str = '<option value="">-- Sélectionner une question --</option>';
 
+    // Create array of questions
     if (data.length > 0) {
         for (var i = 0; i < data.length; i++) {
-            res.push(data[i].title)
+            res.push(data[i]);
         }
     }
 
+    // Insert titles in select
     for (var i = 0; i < res.length; i++) {
-        options_str += '<option value="' + res[i] + '">' + res[i] + '</option>';
+        options_str += '<option value="' + res[i].title + '">' + res[i].title + '</option>';
     }
+    selectQuestions.innerHTML = options_str;
 
-    selectQuestions.innerHTML = options_str
-
+    // Emit selected question
     sendQuestion.addEventListener('click', (e) => {
-        console.log(selectQuestions.value)
-    })
-})
+        var selectedQuestion = res.find(r => r.title == selectQuestions.value);
+        if (selectedQuestion) {
+            socket.emit('selectExistingQuestion', selectedQuestion);
+        }
+
+    });
+});
 

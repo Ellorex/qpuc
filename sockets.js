@@ -11,8 +11,8 @@ module.exports = (io) => {
             })
         })
 
-        client.on('insertExistQuestion', data => {
-            io.emit('insertExistQuestion', data);
+        client.on('selectExistingQuestion', data => {
+            io.emit('selectExistingQuestion', data);
         })
     });
 };
