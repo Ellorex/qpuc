@@ -11,6 +11,7 @@ var newAnswer3Correct = document.getElementById('newAnswer3Correct');
 var newAnswer4Correct = document.getElementById('newAnswer4Correct');
 
 var submitNewQuestion = document.getElementById('submitNewQuestion');
+var sendQuestion = document.getElementById('sendQuestion');
 
 var selectQuestions = document.getElementById('selectQuestions');
 
@@ -39,19 +40,32 @@ submitNewQuestion.addEventListener('click', (e) => {
 })
 
 socket.on('loadQuestions', data => {
-    
-    var res = [];
-    var options_str = "";
 
-    if(data.length > 0) {
+    var res = [];
+    var options_str = '<option value="">-- Sélectionner une question --</option>';
+
+    // Create array of questions
+    if (data.length > 0) {
         for (var i = 0; i < data.length; i++) {
-            res.push(data[i].title)
+            res.push(data[i]);
         }
     }
 
-    for (var i = 0; i < res.length; i++)  {
-        options_str += '<option value="' + res[i] + '">' + res[i] + '</option>';
+    // Insert titles in select
+    for (var i = 0; i < res.length; i++) {
+        options_str += '<option value="' + res[i].title + '">' + res[i].title + '</option>';
     }
+    selectQuestions.innerHTML = options_str;
 
-    selectQuestions.innerHTML = options_str
-})
+    // Emit selected question
+    sendQuestion.addEventListener('click', (e) => {
+        var selectedQuestion = res.find(r => r.title == selectQuestions.value);
+        if (selectedQuestion) {
+            console.log('emit');
+            
+            socket.emit('selectExistingQuestion', selectedQuestion);
+        }
+
+    });
+});
+

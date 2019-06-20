@@ -8,13 +8,18 @@ module.exports = (io) => {
         });
         client.on('insertQuestions', data => {
             var question = new Question(data);
-            question.save().then(data => {
-                console.log(data);
-            })
+            question.save()
+                .then(data => {
+                    Question.find({}).exec()
+                        .then(data => {
+                            io.emit('loadQuestions', data)
+                        })
+                })
+
         })
 
-        client.on('insertExistQuestion', data => {
-            io.emit('insertExistQuestion', data);
+        client.on('selectExistingQuestion', data => {
+            client.broadcast.emit('selectExistingQuestion', data);
         })
 
         client.on('checkPlayerName', name => {
