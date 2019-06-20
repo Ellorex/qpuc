@@ -5,7 +5,7 @@ function getAnswerKey(name) {
     return name + "_anwsers";
 }
 
-class PlayerAnswers {
+class PlayerAnswersService {
     /**
      * @param {string} name Player name
      * @param {number} answerIndex Index of the answer (starting at 0)
@@ -62,4 +62,4 @@ class PlayerAnswers {
     }
 }
 
-module.exports = new PlayerAnswers();
+module.exports = new PlayerAnswersService();
