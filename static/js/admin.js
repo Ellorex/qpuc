@@ -61,6 +61,8 @@ socket.on('loadQuestions', data => {
     sendQuestion.addEventListener('click', (e) => {
         var selectedQuestion = res.find(r => r.title == selectQuestions.value);
         if (selectedQuestion) {
+            console.log('emit');
+            
             socket.emit('selectExistingQuestion', selectedQuestion);
         }
 
