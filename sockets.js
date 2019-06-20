@@ -7,8 +7,12 @@ module.exports = (io) => {
         client.on('insertQuestions', data => {
             var question = new Question(data);
             question.save().then(data => {
-                console.log('Insert');
+                console.log(data);
             })
+        })
+
+        client.on('insertExistQuestion', data => {
+            io.emit('insertExistQuestion', data);
         })
     });
 };
