@@ -1,4 +1,5 @@
 const redis = require("../db/redis");
+const Player = require("../models/player");
 
 const PLAYERS_KEY = "players";
 
@@ -56,8 +57,7 @@ class PlayersService {
                     return;
                 }
 
-                const player = new Player(name);
-                player.points = result;
+                const player = new Player(name, score);
                 resolve(player);
             });
         });
