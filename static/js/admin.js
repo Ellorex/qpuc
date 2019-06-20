@@ -12,25 +12,7 @@ var newAnswer4Correct = document.getElementById('newAnswer4Correct');
 
 var submitNewQuestion = document.getElementById('submitNewQuestion');
 
-// var question = {
-//     title: newQuestion,
-//     answers: [{
-//         title: newAnswer1,
-//         correct: newAnswer1Correct
-//     },
-//     {
-//         title: newAnswer2,
-//         correct: newAnswer2Correct
-//     },
-//     {
-//         title: newAnswer3,
-//         correct: newAnswer3Correct
-//     },
-//     {
-//         title: newAnswer4,
-//         correct: newAnswer4Correct
-//     }]
-// }
+var selectQuestions = document.getElementById('selectQuestions');
 
 submitNewQuestion.addEventListener('click', (e) => {
     var question = {
@@ -54,9 +36,22 @@ submitNewQuestion.addEventListener('click', (e) => {
     }
     socket.emit('insertQuestions', question)
 
-    console.log(question);
-
 })
 
 socket.on('loadQuestions', data => {
+    
+    var res = [];
+    var options_str = "";
+
+    if(data.length > 0) {
+        for (var i = 0; i < data.length; i++) {
+            res.push(data[i].title)
+        }
+    }
+
+    for (var i = 0; i < res.length; i++)  {
+        options_str += '<option value="' + res[i] + '">' + res[i] + '</option>';
+    }
+
+    selectQuestions.innerHTML = options_str
 })
