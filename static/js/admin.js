@@ -12,28 +12,28 @@ var newAnswer4Correct = document.getElementById('newAnswer4Correct');
 
 var submitNewQuestion = document.getElementById('submitNewQuestion');
 
-var question = {
-    title: newQuestion,
-    answers: [{
-        title: newAnswer1,
-        correct: newAnswer1Correct
-    },
-    {
-        title: newAnswer2,
-        correct: newAnswer2Correct
-    },
-    {
-        title: newAnswer3,
-        correct: newAnswer3Correct
-    },
-    {
-        title: newAnswer4,
-        correct: newAnswer4Correct
-    }]
-}
+// var question = {
+//     title: newQuestion,
+//     answers: [{
+//         title: newAnswer1,
+//         correct: newAnswer1Correct
+//     },
+//     {
+//         title: newAnswer2,
+//         correct: newAnswer2Correct
+//     },
+//     {
+//         title: newAnswer3,
+//         correct: newAnswer3Correct
+//     },
+//     {
+//         title: newAnswer4,
+//         correct: newAnswer4Correct
+//     }]
+// }
 
 submitNewQuestion.addEventListener('click', (e) => {
-    question = {
+    var question = {
         title: newQuestion.value,
         answers: [{
             title: newAnswer1.value,
@@ -52,9 +52,8 @@ submitNewQuestion.addEventListener('click', (e) => {
             correct: newAnswer4Correct.checked
         }]
     }
-    socket.emit('insertQuestions', {
-        question
-    })
+    socket.emit('insertQuestions', question)
+
     console.log(question);
 
 })
