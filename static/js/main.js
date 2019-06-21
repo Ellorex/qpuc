@@ -99,22 +99,26 @@ submitAnswer.addEventListener('click', (e) => {
     if (verifradios) {
         answers = question.answers;
         for (i = 0; i < answers.length; i++) {
-            console.log('1')
             var indexAnswer;
             if (answers[i]._id == idAnswer) {
-                console.log('2')
                 indexAnswer = i;
-            } if (answers[i].correct == true) {
-                message.innerHTML = "<div class='alert alert-success text-center m-t-30'>Bonne réponse</div>"
-            } else {
-                message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse</div>"
+                // if (answers[i].correct == true) {
+                //     message.innerHTML = "<div class='alert alert-success text-center m-t-30'>Bonne réponse</div>"
+                // } else {
+                //     message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse</div>"
+                // }
             }
+
         }
         socket.emit('sendAnswer', indexAnswer);
     } else {
         message.innerHTML = "<div class='alert alert-danger text-center m-t-30'>Vous n'avez pas entré de réponse</div>"
     }
 });
+
+socket.on('answerResult', res => {
+    console.log(res)
+})
 
 
 
