@@ -41,8 +41,10 @@ socket.on("gameState", s => {
     updateView(state);
 });
 
-function displayPlayerList(state) {
-    state.players.forEach(player => {
+function displayPlayerList(players) {
+    console.log("displayPlayerList", players);
+    listPlayer.innerHTML = "";
+    players.forEach(player => {
         var li = document.createElement('li');
         li.classList.add('player');
         var spanName = document.createElement('span');
@@ -69,8 +71,7 @@ if (document.getElementById('btnDisconnection')) {
 }
 
 function updateView(state) {
-    listPlayer.innerHTML = "";
-    displayPlayerList(state);
+    displayPlayerList(state.players);
 }
 socket.on("countdown", countdownSec => {
     animCountDown(countdownSec);
@@ -104,6 +105,10 @@ socket.on('selectExistingQuestion', data => {
 
 
 });
+
+socket.on("leaderboard", players => {
+    displayPlayerList(players);
+})
 
 submitAnswer.addEventListener('click', (e) => {
     message.innerHTML = "";
