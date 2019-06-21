@@ -8,6 +8,7 @@ var radios = document.getElementsByName("radio");
 var verifradios = false;
 var message = document.getElementById('message');
 var ranking = null;
+var question;
 
 let state = null;
 if (document.getElementById('btnPlay')) {
@@ -52,7 +53,7 @@ function displayRanking(state) {
     ranking = document.getElementById('ranking');
     state.players.forEach(player => {
         var li = document.createElement('li');
-        li.setAttribute('id', 'player_'+player.name);
+        li.setAttribute('id', 'player_' + player.name);
         var spanName = document.createElement('span');
         var spanScore = document.createElement('span');
         spanName.classList.add('ranking-player-name');
@@ -72,6 +73,7 @@ function updateView(state) {
 }
 
 socket.on('selectExistingQuestion', data => {
+    question = data;
     var answers_str = "";
     questionTitle.innerHTML = data.title;
     var answers = data.answers;
@@ -82,36 +84,37 @@ socket.on('selectExistingQuestion', data => {
     }
     answersList.innerHTML = answers_str;
 
-    submitAnswer.addEventListener('click', (e) => {
-        message.innerHTML = "";
-        for (var i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                idAnswer = radios[i].id
-                verifradios = true;
-                break;
-            }
-        }
-        if (verifradios) {
-            for(i=0; i< answers.length; i ++) {
-                var indexAnswer;
-                if(answers[i]._id == idAnswer) {
-                    indexAnswer = i;
-                    console.log(indexAnswer)
-                    if(answers[i].correct ==true) {
-                        message.innerHTML = "<div class='alert alert-success text-center m-t-30'>Bonne réponse</div>"
-                    } else {
-                        message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse</div>"
-                    }
-                }
-            }
-            socket.emit('sendAnswer', indexAnswer);
-        } else {
-            message.innerHTML = "<div class='alert alert-danger text-center m-t-30'>Vous n'avez pas entré de réponse</div>"
-        }
-    });
+
 });
 
-
+submitAnswer.addEventListener('click', (e) => {
+    message.innerHTML = "";
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            idAnswer = radios[i].id
+            verifradios = true;
+            break;
+        }
+    }
+    if (verifradios) {
+        answers = question.answers;
+        for (i = 0; i < answers.length; i++) {
+            console.log('1')
+            var indexAnswer;
+            if (answers[i]._id == idAnswer) {
+                console.log('2')
+                indexAnswer = i;
+            } if (answers[i].correct == true) {
+                message.innerHTML = "<div class='alert alert-success text-center m-t-30'>Bonne réponse</div>"
+            } else {
+                message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse</div>"
+            }
+        }
+        socket.emit('sendAnswer', indexAnswer);
+    } else {
+        message.innerHTML = "<div class='alert alert-danger text-center m-t-30'>Vous n'avez pas entré de réponse</div>"
+    }
+});
 
 
 
