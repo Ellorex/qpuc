@@ -21,7 +21,7 @@ class PlayersService {
                     return;
                 }
 
-                resolve();
+                resolve(true);
             });
         });
     }
