@@ -23,14 +23,11 @@ if (document.getElementById('btnPlay')) {
 }
 
 socket.on('joinGame', (success) => {
-    console.log('joingame')
     if (success) {
-        console.log('if success')
         displayPlayerName.innerHTML = "Bienvenue " + playerName;
         document.getElementById('player-name-form-row').style.display = 'none';
         document.getElementById('main-container').style.display = 'flex';
     } else {
-        console.log('if not')
         var alert = document.createElement('div');
         alert.classList.add('alert');
         alert.classList.add('alert-danger');
@@ -48,7 +45,6 @@ socket.on("gameState", s => {
 });
 
 function displayPlayerList(players) {
-    console.log("displayPlayerList", players);
     listPlayer.innerHTML = "";
     players.forEach(player => {
         var li = document.createElement('li');
