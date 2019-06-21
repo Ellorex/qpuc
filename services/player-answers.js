@@ -48,6 +48,11 @@ class PlayerAnswersService {
                     return;
                 }
 
+                if (!result) {
+                    resolve(null);
+                    return;
+                }
+
                 result.points = parseInt(result.points);
                 resolve(result);
             });
