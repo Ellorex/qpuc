@@ -51,6 +51,11 @@ function onConnection(client) {
             });
         }, countdownSec * 1000);
     });
+
+    client.on("endGame", () => {
+        gameState.endGame();
+        playNs.to("room1").emit("gameEnded");
+    });
 }
 
 
