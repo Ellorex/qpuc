@@ -10,6 +10,7 @@ var message = document.getElementById('message');
 var ranking = null;
 var question;
 var idAnswer;
+var displayCountdown = document.getElementById('displayCountdown');
 
 let state = null;
 if (document.getElementById('btnPlay')) {
@@ -44,30 +45,19 @@ function displayPlayerList(state) {
     state.players.forEach(player => {
         var li = document.createElement('li');
         li.classList.add('player');
+        var spanName = document.createElement('span');
+        spanName.classList.add('ranking-player-name');
+        spanName.innerText = player.name;
+        var spanScore = document.createElement('span');
+        spanScore.classList.add('ranking-player-score');
+        spanScore.innerText = player.score;
         li.setAttribute('id', 'player_' + player.name);
-        li.innerText = player.name;
+        li.append(spanName);
+        li.append(spanScore);
         listPlayer.appendChild(li);
     });
 }
 
-function displayRanking(state) {
-    if(document.getElementById('ranking')){
-        ranking = document.getElementById('ranking');
-        state.players.forEach(player => {
-            var li = document.createElement('li');
-            li.setAttribute('id', 'player_' + player.name);
-            var spanName = document.createElement('span');
-            var spanScore = document.createElement('span');
-            spanName.classList.add('ranking-player-name');
-            spanName.innerText = player.name;
-            spanScore.classList.add('ranking-player-score');
-            spanScore.innerText = player.score;
-            li.append(spanName);
-            li.append(spanScore);
-            ranking.appendChild(li);
-        })
-    }
-}
 if (document.getElementById('btnDisconnection')) {
     var btnDisconnection = document.getElementById('btnDisconnection');
 
@@ -81,10 +71,26 @@ if (document.getElementById('btnDisconnection')) {
 function updateView(state) {
     listPlayer.innerHTML = "";
     displayPlayerList(state);
-    displayRanking(state);
 }
+socket.on("countdown", countdownSec => {
+    animCountDown(countdownSec);
+    function animCountDown(countdownSec) {
+        displayCountdown.innerHTML = "Début du jeu dans : " + countdownSec + "s !";
+        setTimeout(() => {
+            countdownSec = countdownSec - 1;
+            if (countdownSec == 0) {
+                displayCountdown.innerHTML = "";
+            }
+            if (countdownSec > 0) {
+                animCountDown(countdownSec);
+            }
+        }, 1000)
+    }
+})
 
 socket.on('selectExistingQuestion', data => {
+    submitAnswer.disabled = false;
+    message.innerHTML = "";
     question = data;
     var answers_str = "";
     questionTitle.innerHTML = data.title;
@@ -101,6 +107,12 @@ socket.on('selectExistingQuestion', data => {
 
 submitAnswer.addEventListener('click', (e) => {
     message.innerHTML = "";
+
+    for (var i = 0; i < radios.length; i++) {
+        radios[i].disabled = true;
+    }
+    submitAnswer.disabled = true;
+
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             idAnswer = radios[i].id
@@ -129,7 +141,7 @@ submitAnswer.addEventListener('click', (e) => {
 });
 
 socket.on('answerResult', res => {
-    if(res._id == idAnswer)  {
+    if (res._id == idAnswer) {
         message.innerHTML = "<div class='alert alert-success text-center m-t-30'>Bonne réponse</div>"
     } else {
         message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse ! La bonne réponse était : " + res.title + "</div>"
