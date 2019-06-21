@@ -32,6 +32,7 @@ function onConnection(client) {
         setTimeout(() => {
             gameState.startRound(question, () => {
                 gameState.players.getPlayers().then(players => {
+                    client.nsp.emit("roundEnded");
                     playNs.to("room1").emit("roundEnded");
                     playNs.to("room1").emit("leaderboard", players);
                 });
