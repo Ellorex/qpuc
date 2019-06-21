@@ -36,11 +36,16 @@ function onConnection(client) {
                     playNs.to("room1").emit("leaderboard", players);
                 });
             }).then(() => {
+                // remove correct prop from answers
+                for (let answer of question.answers) {
+                    delete answer.correct;
+                }
                 playNs.to("room1").emit('selectExistingQuestion', question);
             });
         }, countdownSec * 1000);
     });
 }
+
 
 /**
  * @function
