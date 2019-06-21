@@ -22,7 +22,6 @@ function onConnection(client) {
     });
 
     client.on('selectExistingQuestion', question => {
-        console.log(question);
         if (!gameState.roundEnded) {
             return;
         }
@@ -32,9 +31,13 @@ function onConnection(client) {
         setTimeout(() => {
             gameState.startRound(question, () => {
                 gameState.players.getPlayers().then(players => {
-                    client.nsp.emit("roundEnded");
                     playNs.to("room1").emit("roundEnded");
                     playNs.to("room1").emit("leaderboard", players);
+
+                    gameState.getPlayerAnswers().then(answers => {
+                        playNs.to("room1").emit("answerResult", gameState.getCorrectAnswer());
+                        playNs.to("room1").emit("playerAnswers", answers);
+                    });
                 });
             }).then(() => {
                 // remove correct property from answers
