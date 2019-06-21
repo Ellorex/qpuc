@@ -1,4 +1,4 @@
-var socket = io({ transports: ['websocket'], upgrade: false });
+var socket = io("/admin", { transports: ['websocket'], upgrade: false });
 
 var newQuestion = document.getElementById('newQuestion');
 var newAnswer1 = document.getElementById('newAnswer1');
