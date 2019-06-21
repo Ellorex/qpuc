@@ -13,9 +13,10 @@ function onConnection(client) {
             if (success) {
                 console.log(name + "joined the game");
                 client.join(ROOM_NAME);
-                const state = await gameState.getState();
-                client.to(ROOM_NAME).emit("gameState", state);
-                client.broadcast.to(ROOM_NAME).emit('playerJoined', name);
+                gameState.getState().then(state => {
+                    client.to(ROOM_NAME).emit("gameState", state);
+                    client.broadcast.to(ROOM_NAME).emit('playerJoined', name);
+                });
             }
         });
     });
