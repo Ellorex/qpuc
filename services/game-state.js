@@ -80,12 +80,12 @@ class GameState {
      */
     async setPlayerAnswer(name, answer) {
         if (this.roundEnded || answer < 0 || answer >= this.currentQuestion.answers.length) {
-            return;
+            return false;
         }
 
         // check if the player already answered
         if (await this.playerAnswers.getPlayerAnswer(name)) {
-            return;
+            return false;
         }
 
         const answerTime = Date.now() - this.roundStartTs;
@@ -96,7 +96,8 @@ class GameState {
             points += 1;
         }
 
-        this.playerAnswers.setPlayerAnswer(name, answer, correct, answerTime, points);
+        await this.playerAnswers.setPlayerAnswer(name, answer, correct, answerTime, points);
+        return true;
     }
 
     async getPlayerAnswers() {
