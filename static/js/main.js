@@ -1,5 +1,6 @@
 var socket = io("/play", { transports: ['websocket'], upgrade: false });
 var playerName = null;
+var ranking = document.getElementById('ranking');
 
 let state = null;
 if (document.getElementById('btnPlay')) {
@@ -42,6 +43,23 @@ function displayPlayerList (state) {
     });
 }
 
+function displayRanking(state) {
+    state.players.forEach(player => {
+        var li = document.createElement('li');
+        li.setAttribute('id', 'player_'+player.name);
+        var spanName = document.createElement('span');
+        var spanScore = document.createElement('span');
+        spanName.classList.add('raking-player-name');
+        spanName.innerText = player.name;
+        spanScore.classList.add('raking-player-score');
+        spanScore.innerText = player.score;
+        li.append(spanName);
+        li.append(spanScore);
+        ranking.appendChild(li);
+    })
+}
+
 function updateView(state) {
     displayPlayerList(state);
+    displayRanking(state);
 }
