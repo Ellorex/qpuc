@@ -21,7 +21,6 @@ class PlayerAnswersService {
      * @param {number} answerIndex Index of the answer (starting at 0)
      * @param {number} answerTime Time the player took to give the answer (in seconds)
      * @param {number} points Score change
-     * @returns {PlayerAnswer}
      */
     setPlayerAnswer(name, answer, isCorrect, answerTime, points) {
         return new Promise((resolve, reject) => {
