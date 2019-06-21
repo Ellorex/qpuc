@@ -17,6 +17,14 @@ class GameState {
     playerAnswers = playerAnswersService;
     anyCorrectAnswer = false;
 
+    get timeLeft() {
+        if (this.roundEnded) {
+            return 0;
+        }
+
+        return Date.now() - this.roundStartTs;
+    }
+
     /**
      * @callback startRoundCallback
      */
@@ -89,6 +97,24 @@ class GameState {
         }
 
         this.playerAnswers.setPlayerAnswer(name, answer, correct, answerTime, points);
+    }
+
+    async getPlayerAnswers() {
+        const answers = await this.playerAnswers.getAllAnswers();
+        return answers.map(x => { x.player.name, x.isCorrect, x.points})
+    }
+
+    async getState() {
+        const question = this.currentQuestion ? {
+            title: this.currentQuestion.title,
+            answers: this.currentQuestion.answers.map(x => { x.title })
+        } : null;
+        return {
+            players: await this.players.getPlayers(),
+            answers: await this.getPlayerAnswers(),
+            question,
+            timeLeft: this.timeLeft
+        };
     }
 }
 

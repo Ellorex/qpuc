@@ -1,5 +1,7 @@
 const gameState = require("../services/game-state");
 
+const ROOM_NAME = "room1";
+
 /**
  * @param {SocketIO.Socket} client
  */
@@ -10,7 +12,11 @@ function onConnection(client) {
             client.emit("joinGame", success);
             if (success) {
                 console.log(name + "joined the game");
-                client.nsp.emit('playerJoined', name);
+                client.join(ROOM_NAME);
+                gameState.getState().then(state => {
+                    client.to(ROOM_NAME).emit("gameState", state);
+                    client.broadcast.to(ROOM_NAME).emit('playerJoined', name);
+                });
             }
         });
     });

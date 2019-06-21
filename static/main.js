@@ -1,6 +1,8 @@
 var socket = io("/play", { transports: ['websocket'], upgrade: false });
 var playerName = null;
 
+let state = null;
+
 document.getElementById('btnPlay').addEventListener('click', (e) => {
     playerName = document.getElementById('playerName').value;
     socket.emit('joinGame', playerName);
@@ -19,6 +21,15 @@ socket.on('joinGame', (success) => {
         alert.setAttribute('id', 'alert');
         alert.innerText = 'Ce joueur existe déjà. Veuillez choisir un autre nom.';
         document.getElementById('player-name-form-row').append(alert);
-
     }
 });
+
+// emitted once after the player joined the game
+socket.on("gameState", s => {
+    state = s;
+    updateView(state);
+});
+
+function updateView(state) {
+
+}
