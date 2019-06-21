@@ -10,6 +10,7 @@ var message = document.getElementById('message');
 var ranking = null;
 var question;
 var idAnswer;
+var displayCountdown = document.getElementById('displayCountdown');
 
 let state = null;
 if (document.getElementById('btnPlay')) {
@@ -71,8 +72,25 @@ function updateView(state) {
     listPlayer.innerHTML = "";
     displayPlayerList(state);
 }
+socket.on("countdown", countdownSec => {
+    animCountDown(countdownSec);
+    function animCountDown(countdownSec) {
+        displayCountdown.innerHTML = "Début du jeu dans : " + countdownSec + "s !";
+        setTimeout(() => {
+            countdownSec = countdownSec - 1;
+            if (countdownSec == 0) {
+                displayCountdown.innerHTML = "";
+            }
+            if (countdownSec > 0) {
+                animCountDown(countdownSec);
+            }
+        }, 1000)
+    }
+})
 
 socket.on('selectExistingQuestion', data => {
+    submitAnswer.disabled = false;
+    message.innerHTML = "";
     question = data;
     var answers_str = "";
     questionTitle.innerHTML = data.title;
@@ -89,6 +107,12 @@ socket.on('selectExistingQuestion', data => {
 
 submitAnswer.addEventListener('click', (e) => {
     message.innerHTML = "";
+
+    for (var i = 0; i < radios.length; i++) {
+        radios[i].disabled = true;
+    }
+    submitAnswer.disabled = true;
+
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             idAnswer = radios[i].id
@@ -117,7 +141,7 @@ submitAnswer.addEventListener('click', (e) => {
 });
 
 socket.on('answerResult', res => {
-    if(res._id == idAnswer)  {
+    if (res._id == idAnswer) {
         message.innerHTML = "<div class='alert alert-success text-center m-t-30'>Bonne réponse</div>"
     } else {
         message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse ! La bonne réponse était : " + res.title + "</div>"

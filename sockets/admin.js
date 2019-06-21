@@ -32,6 +32,7 @@ function onConnection(client) {
         setTimeout(() => {
             gameState.startRound(question, () => {
                 gameState.players.getPlayers().then(players => {
+                    client.nsp.emit("roundEnded");
                     playNs.to("room1").emit("roundEnded");
                     playNs.to("room1").emit("leaderboard", players);
                 });
@@ -49,6 +50,11 @@ function onConnection(client) {
                 });
             });
         }, countdownSec * 1000);
+    });
+
+    client.on("endGame", () => {
+        gameState.endGame();
+        playNs.to("room1").emit("gameEnded");
     });
 }
 
