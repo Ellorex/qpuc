@@ -37,3 +37,8 @@ h1 {
 .ranking-player-score {
     margin-left: 5%;
 }
+
+.displayEndGame {
+    display: none;
+    text-align: center;
+}

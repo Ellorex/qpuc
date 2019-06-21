@@ -34,7 +34,12 @@
             </div>
         </div>
         <div id="main-container" class="row main-container">
-            <div class="col-8">
+            <div id="displayEndGame" class="displayEndGame col-8">
+                <h2 id="endGameTitle" class="text-center">Fin de la partie</h2>
+                <h4 id="endGameSubTitle" class="text-center"></h4>
+                <h4 id="winnerName" class="text-center"><h4>
+            </div>
+            <div id="hudQuestion" class="col-8 hudQuestion">
                 <div class="blocQuestion">
                     <h2 id="questionTitle" class="text-center">En attente d'une question</h2>
                 </div>
@@ -46,11 +51,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div id="connectedPlayers" class="col-4 connectedPlayers">
                 <h2>Joueurs connectés</h2>
                 <ul id="listPlayer"></ul>
             </div>
-
         </div>
         <div id="message"></div>
     </div>

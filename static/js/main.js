@@ -11,6 +11,9 @@ var ranking = null;
 var question;
 var idAnswer;
 var displayCountdown = document.getElementById('displayCountdown');
+var hudQuestion = document.getElementById('hudQuestion');
+var displayEndGame = document.getElementById('displayEndGame');
+var connectedPlayers = document.getElementById('connectedPlayers');
 
 let state = null;
 if (document.getElementById('btnPlay')) {
@@ -56,6 +59,11 @@ function displayPlayerList(state) {
         li.append(spanScore);
         listPlayer.appendChild(li);
     });
+}
+
+function getWinner(players) {
+    console.log(players[0].name);
+    return players[0].name;
 }
 
 if (document.getElementById('btnDisconnection')) {
@@ -147,3 +155,9 @@ socket.on('answerResult', res => {
         message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse ! La bonne réponse était : " + res.title + "</div>"
     }
 })
+
+socket.on('gameEnded', () => {
+    hudQuestion.style.display = 'none';
+    displayEndGame.style.display = 'block';
+    document.getElementById('winnerName').innerText = getWinner(state.players) + ' remporte la partie';
+});

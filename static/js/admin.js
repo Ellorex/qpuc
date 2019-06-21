@@ -17,6 +17,7 @@ var message = document.getElementById('message');
 
 var selectQuestions = document.getElementById('selectQuestions');
 var sendQuestion = document.getElementById('sendQuestion');
+var endGame = document.getElementById('endGame');
 var verifinput = false;
 var verifradios = false;
 
@@ -107,5 +108,8 @@ socket.on('loadQuestions', data => {
         }
 
     });
+    endGame.addEventListener('click', (e) => {
+        socket.emit('endGame');
+    })
 });
 
