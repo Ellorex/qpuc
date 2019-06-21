@@ -25,16 +25,7 @@ function onConnection(client) {
     });
 
     client.on("sendAnswer", answerIndex => {
-        gameState.setPlayerAnswer(playerName, answerIndex).then(saved => {
-            if (!saved) {
-                return;
-            }
-
-            gameState.getPlayerAnswers().then(answers => {
-                client.emit("answerResult", gameState.getCorrectAnswer());
-                client.nsp.to(ROOM_NAME).emit("playerAnswers", answers);
-            });
-        });
+        gameState.setPlayerAnswer(playerName, answerIndex);
     });
 
     client.on('disconnect', reason => {

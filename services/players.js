@@ -90,7 +90,7 @@ class PlayersService {
      */
     getPlayers() {
         return new Promise((resolve, reject) => {
-            redis.zrange(PLAYERS_KEY, 0, -1, "WITHSCORES", (err, result) => {
+            redis.zrevrange(PLAYERS_KEY, 0, -1, "WITHSCORES", (err, result) => {
                 if (err) {
                     reject(err);
                     return;
