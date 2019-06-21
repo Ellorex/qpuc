@@ -34,7 +34,7 @@ class GameState {
      * @param {startRoundCallback} onRoundEnd Called when the round ends
      */
     async startRound(question, onRoundEnd) {
-        if (!this.roundEnded) {
+        if (this.gameEnded || !this.roundEnded) {
             return;
         }
 
@@ -127,6 +127,10 @@ class GameState {
 
     getCorrectAnswer() {
         return this.currentQuestion.answers.find(x => x.correct);
+    }
+
+    endGame() {
+        this.gameEnded = true;
     }
 }
 
