@@ -6,7 +6,7 @@ const PLAYERS_KEY = "players";
 class PlayersService {
     /**
      * @param { string } name
-     * @returns { boolean } returns false if the player already exists
+     * @returns { Promise<boolean> } returns false if the player already exists
      */
     async addPlayer(name) {
         if (await this.getPlayer(name)) {
@@ -14,7 +14,6 @@ class PlayersService {
         }
 
         return new Promise((resolve, reject) => {
-            console.log("added player " + name);
             redis.zadd(PLAYERS_KEY, 0, name, (err, result) => {
                 if (err) {
                     reject(err);
