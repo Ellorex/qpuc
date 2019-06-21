@@ -79,7 +79,7 @@ class GameState {
      * @param {number} answer Answer index
      */
     async setPlayerAnswer(name, answer) {
-        if (this.roundEnded || answer < 0 || answer >= currentQuestion.answers.length) {
+        if (this.roundEnded || answer < 0 || answer >= this.currentQuestion.answers.length) {
             return;
         }
 
@@ -89,7 +89,7 @@ class GameState {
         }
 
         const answerTime = Date.now() - this.roundStartTs;
-        const correct = currentQuestion.answers[answer].correct;
+        const correct = this.currentQuestion.answers[answer].correct;
         let points = correct ? 1 : -1;
         if (correct && !this.anyCorrectAnswer) {
             this.anyCorrectAnswer = true;
@@ -122,6 +122,10 @@ class GameState {
             this.players.removePlayer(name),
             this.playerAnswers.removePlayerAnswer(name)
         ]);
+    }
+
+    getCorrectAnswer() {
+        return this.currentQuestion.answers.find(x => x.correct);
     }
 }
 
