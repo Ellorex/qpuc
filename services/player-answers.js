@@ -67,9 +67,11 @@ class PlayerAnswersService {
         const answers = [];
         for (let player of players) {
             const answer = await this.getPlayerAnswer(player.name);
-            if (answer) {
-                answer.player = player;
+            if (!answer) {
+                continue;
             }
+            
+            answer.player = player;
             answers.push(answer);
         }
         return answers;

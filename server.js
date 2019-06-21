@@ -6,7 +6,7 @@ const sockets = require('./sockets');
 
 var app = express();
 var port = 8080;
-app.use(express.static('./static'));
+app.use(express.static(__dirname + '/static'));
 
 mongoose.connect('mongodb://localhost:27017/qpuc', {useNewUrlParser: true}).then(() => {
     routes.routes(app);
