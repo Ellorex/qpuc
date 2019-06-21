@@ -15,12 +15,13 @@ function onConnection(client) {
         question.save().then(data => {
             return Question.find({}).exec();
         }).then(questions => {
-            io.emit('loadQuestions', questions);
+            client.nsp.emit('loadQuestions', questions);
         });
     });
 
     client.on('selectExistingQuestion', data => {
-        client.broadcast.emit('selectExistingQuestion', data);
+        console.log(data)
+        playNs.emit('selectExistingQuestion', data);
     })
 }
 

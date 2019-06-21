@@ -1,5 +1,6 @@
 var socket = io("/admin", { transports: ['websocket'], upgrade: false });
 
+var inputs = document.getElementsByTagName("input");
 var newQuestion = document.getElementById('newQuestion');
 var newAnswer1 = document.getElementById('newAnswer1');
 var newAnswer2 = document.getElementById('newAnswer2');
@@ -9,13 +10,18 @@ var newAnswer1Correct = document.getElementById('newAnswer1Correct');
 var newAnswer2Correct = document.getElementById('newAnswer2Correct');
 var newAnswer3Correct = document.getElementById('newAnswer3Correct');
 var newAnswer4Correct = document.getElementById('newAnswer4Correct');
+var radios = document.getElementsByName("radio");
 
 var submitNewQuestion = document.getElementById('submitNewQuestion');
-var sendQuestion = document.getElementById('sendQuestion');
+var message = document.getElementById('message');
 
 var selectQuestions = document.getElementById('selectQuestions');
+var sendQuestion = document.getElementById('sendQuestion');
+var verifinput = false;
+var verifradios = false;
 
 submitNewQuestion.addEventListener('click', (e) => {
+
     var question = {
         title: newQuestion.value,
         answers: [{
@@ -35,7 +41,41 @@ submitNewQuestion.addEventListener('click', (e) => {
             correct: newAnswer4Correct.checked
         }]
     }
-    socket.emit('insertQuestions', question)
+
+    //check if one radio in checked
+    for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            verifradios = true;
+            break;
+        }
+    }
+
+    // check no field is empty
+    if (newQuestion.value != "" && newAnswer1.value != "" && newAnswer2.value != "" && newAnswer3.value != "" && newAnswer4.value != "") {
+        verifinput = true;
+    }
+
+
+    if (verifinput && verifradios) {
+
+        //Clear all inputs
+        for (var ii = 0; ii < inputs.length; ii++) {
+            if (inputs[ii].type == "text") {
+                inputs[ii].value = "";
+            } else if(inputs[ii].type == "radio") {
+                for(var i=0;i<inputs.length;i++)
+                inputs[i].checked = false;
+            }
+        }
+        
+        message.innerHTML = "<div class='alert alert-success text-center'>La question a bien été enregistrée</div>";
+        socket.emit('insertQuestions', question);
+    } else if (verifinput && !verifradios) {
+        message.innerHTML = "<div class='alert alert-danger text-center'>Merci de sélectionner la bonne réponse</div>"
+    } else {
+        message.innerHTML = "<div class='alert alert-danger text-center'>Merci de renseigner tous les champs</div>"
+    }
+
 
 })
 
