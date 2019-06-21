@@ -12,6 +12,11 @@ h1 {
     text-align: center;
     padding: 15px;
 }
+
+.bloc .alert {
+    margin-top: 20px;
+}
+
 .form-wrapper {
     padding: 15px;
 }
