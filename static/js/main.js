@@ -51,19 +51,30 @@ function displayPlayerList(state) {
 }
 
 function displayRanking(state) {
-    ranking = document.getElementById('ranking');
-    state.players.forEach(player => {
-        var li = document.createElement('li');
-        li.setAttribute('id', 'player_' + player.name);
-        var spanName = document.createElement('span');
-        var spanScore = document.createElement('span');
-        spanName.classList.add('ranking-player-name');
-        spanName.innerText = player.name;
-        spanScore.classList.add('ranking-player-score');
-        spanScore.innerText = player.score;
-        li.append(spanName);
-        li.append(spanScore);
-        ranking.appendChild(li);
+    if(document.getElementById('ranking')){
+        ranking = document.getElementById('ranking');
+        state.players.forEach(player => {
+            var li = document.createElement('li');
+            li.setAttribute('id', 'player_' + player.name);
+            var spanName = document.createElement('span');
+            var spanScore = document.createElement('span');
+            spanName.classList.add('ranking-player-name');
+            spanName.innerText = player.name;
+            spanScore.classList.add('ranking-player-score');
+            spanScore.innerText = player.score;
+            li.append(spanName);
+            li.append(spanScore);
+            ranking.appendChild(li);
+        })
+    }
+}
+if (document.getElementById('btnDisconnection')) {
+    var btnDisconnection = document.getElementById('btnDisconnection');
+
+    btnDisconnection.addEventListener('click', (e) => {
+        socket.disconnect();
+        document.getElementById('player-name-form-row').style.display = 'block';
+        document.getElementById('main-container').style.display = 'none';
     })
 }
 
@@ -124,6 +135,3 @@ socket.on('answerResult', res => {
         message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse ! La bonne réponse était : " + res.title + "</div>"
     }
 })
-
-
-
