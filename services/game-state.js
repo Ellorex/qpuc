@@ -105,10 +105,10 @@ class GameState {
     }
 
     async getState() {
-        const question =  {
+        const question = this.currentQuestion ? {
             title: this.currentQuestion.title,
             answers: this.currentQuestion.answers.map(x => { x.title })
-        };
+        } : null;
         return {
             players: await this.players.getPlayers(),
             answers: await this.getPlayerAnswers(),
