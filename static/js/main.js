@@ -70,6 +70,15 @@ function getWinner(players) {
     return players[0].name;
 }
 
+function isPlayersScoreEqual(players) {
+    for(var i = 0; i < players.length; i++) {
+        if (players[i].score !== 0 ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 if (document.getElementById('btnDisconnection')) {
     var btnDisconnection = document.getElementById('btnDisconnection');
 
@@ -164,7 +173,13 @@ socket.on('answerResult', res => {
 })
 
 socket.on('gameEnded', () => {
+    let message = "";
     hudQuestion.style.display = 'none';
     displayEndGame.style.display = 'block';
-    document.getElementById('winnerName').innerText = getWinner(state.players) + ' remporte la partie';
+    if (isPlayersScoreEqual) {
+        message += "Il n'y a aucun vaiqueur pour cette partie";
+    } else {
+        message += getWinner(state.players) + " remport la partie";
+    }
+    document.getElementById('winnerName').innerText = message;
 });
