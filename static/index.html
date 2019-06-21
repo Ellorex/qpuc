@@ -25,8 +25,7 @@
             <div class="player-name-form row">
                 <label for="name" class="col-4 offset-2">Nom</label>
                 <div class="form-group col-4 ">
-                    <input type="text" id="playerName" placeholder="Saisir un nom de joueur"
-                        class="form-control ">
+                    <input type="text" id="playerName" placeholder="Saisir un nom de joueur" class="form-control ">
                 </div>
 
                 <div class="col-12 text-center">
@@ -35,46 +34,28 @@
             </div>
         </div>
         <div id="main-container" class="row main-container">
-            <div class="blocQuestion">
-                <h2 id="questionTitle" class="text-center">En attente d'une question</h2>
-            </div>
-            <div class="row blocAnswers">
-
-                <div id="answersList">Merci d'attendre un instant, le maître de jeu séléctionne une question</div>
-                <div class="col-12 m-t-30 text-center">
-                    <button class="btn btn-outline-info">Soumettre ma réponse</button>
+            <div class="col-8">
+                <div class="blocQuestion">
+                    <h2 id="questionTitle" class="text-center">En attente d'une question</h2>
                 </div>
+                <div class="row blocAnswers">
+
+                    <div id="answersList">Merci d'attendre un instant, le maître de jeu séléctionne une question</div>
+                    <div class="col-12 m-t-30 text-center">
+                        <button class="btn btn-outline-info" id="submitAnswer">Soumettre ma réponse</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <h2>Joueurs connectés</h2>
+                <ul id="listPlayer"></ul>
             </div>
 
         </div>
+        <div id="message"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
     <script src="js/main.js"></script>
-    <script>
-        var socketplay = io("/play", { transports: ['websocket'], upgrade: false });
-
-        var questionTitle = document.getElementById('questionTitle');
-        var answersList = document.getElementById('answersList');
-
-        socketplay.emit('joinGame', Date.now())
-        socketplay.on('selectExistingQuestion', data => {
-            var answers_str = "";
-            questionTitle.innerHTML = data.title;
-            var answers = data.answers;
-            console.log(data.title);
-
-            for (var i = 0; i < answers.length; i++) {
-
-                answers_str += "<div class='col-6 form-check'><input class='form-check-input' type='radio' name='name' id='" + answers[i]._id + "'> <label class='form-check-label' for='" + answers[i]._id + "'>" + answers[i].title + "</label></div>";
-            } answers
-            answersList.innerHTML = answers_str;
-        })
-
-        socketplay.on('sendAnswer', data => {
-
-        })
-
-    </script>
 </body>
 
 </html>
