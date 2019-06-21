@@ -11,11 +11,18 @@ var newAnswer3Correct = document.getElementById('newAnswer3Correct');
 var newAnswer4Correct = document.getElementById('newAnswer4Correct');
 
 var submitNewQuestion = document.getElementById('submitNewQuestion');
-var sendQuestion = document.getElementById('sendQuestion');
+var message = document.getElementById('message');
 
 var selectQuestions = document.getElementById('selectQuestions');
+var sendQuestion = document.getElementById('sendQuestion');
+var verif = false;
 
 submitNewQuestion.addEventListener('click', (e) => {
+
+    if (newQuestion.value != "" && newAnswer1.value != "" && newAnswer2.value != "" && newAnswer3.value != "" && newAnswer4.value != "") {
+        verif = true;
+    }
+
     var question = {
         title: newQuestion.value,
         answers: [{
@@ -35,7 +42,14 @@ submitNewQuestion.addEventListener('click', (e) => {
             correct: newAnswer4Correct.checked
         }]
     }
-    socket.emit('insertQuestions', question)
+    if (verif) {
+        console.log('ok');
+        message.innerHTML = "La question a bien été enregistrée";
+        socket.emit('insertQuestions', question);
+    } else {
+        message.innerHTML = "Merci de renseigner tous les champs"
+    }
+
 
 })
 
@@ -62,7 +76,7 @@ socket.on('loadQuestions', data => {
         var selectedQuestion = res.find(r => r.title == selectQuestions.value);
         if (selectedQuestion) {
             console.log('emit');
-            
+
             socket.emit('selectExistingQuestion', selectedQuestion);
         }
 
