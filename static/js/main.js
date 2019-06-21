@@ -44,30 +44,19 @@ function displayPlayerList(state) {
     state.players.forEach(player => {
         var li = document.createElement('li');
         li.classList.add('player');
+        var spanName = document.createElement('span');
+        spanName.classList.add('ranking-player-name');
+        spanName.innerText = player.name;
+        var spanScore = document.createElement('span');
+        spanScore.classList.add('ranking-player-score');
+        spanScore.innerText = player.score;
         li.setAttribute('id', 'player_' + player.name);
-        li.innerText = player.name;
+        li.append(spanName);
+        li.append(spanScore);
         listPlayer.appendChild(li);
     });
 }
 
-function displayRanking(state) {
-    if(document.getElementById('ranking')){
-        ranking = document.getElementById('ranking');
-        state.players.forEach(player => {
-            var li = document.createElement('li');
-            li.setAttribute('id', 'player_' + player.name);
-            var spanName = document.createElement('span');
-            var spanScore = document.createElement('span');
-            spanName.classList.add('ranking-player-name');
-            spanName.innerText = player.name;
-            spanScore.classList.add('ranking-player-score');
-            spanScore.innerText = player.score;
-            li.append(spanName);
-            li.append(spanScore);
-            ranking.appendChild(li);
-        })
-    }
-}
 if (document.getElementById('btnDisconnection')) {
     var btnDisconnection = document.getElementById('btnDisconnection');
 
@@ -81,7 +70,6 @@ if (document.getElementById('btnDisconnection')) {
 function updateView(state) {
     listPlayer.innerHTML = "";
     displayPlayerList(state);
-    displayRanking(state);
 }
 
 socket.on('selectExistingQuestion', data => {
