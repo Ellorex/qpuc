@@ -7,6 +7,7 @@ var submitAnswer = document.getElementById('submitAnswer');
 var radios = document.getElementsByName("radio");
 var verifradios = false;
 var message = document.getElementById('message');
+var ranking = null;
 
 let state = null;
 if (document.getElementById('btnPlay')) {
@@ -47,9 +48,27 @@ function displayPlayerList(state) {
     });
 }
 
+function displayRanking(state) {
+    ranking = document.getElementById('ranking');
+    state.players.forEach(player => {
+        var li = document.createElement('li');
+        li.setAttribute('id', 'player_'+player.name);
+        var spanName = document.createElement('span');
+        var spanScore = document.createElement('span');
+        spanName.classList.add('ranking-player-name');
+        spanName.innerText = player.name;
+        spanScore.classList.add('ranking-player-score');
+        spanScore.innerText = player.score;
+        li.append(spanName);
+        li.append(spanScore);
+        ranking.appendChild(li);
+    })
+}
+
 function updateView(state) {
     listPlayer.innerHTML = "";
     displayPlayerList(state);
+    displayRanking(state);
 }
 
 socket.on('selectExistingQuestion', data => {

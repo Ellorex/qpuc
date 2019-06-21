@@ -28,7 +28,7 @@ function onConnection(client) {
         gameState.setPlayerAnswer(playerName, answerIndex).then(() => {
             return gameState.getPlayerAnswers();
         }).then(answers => {
-            client.nsp.emit("playerAnswers", answers);
+            client.nsp.to(ROOM_NAME).emit("playerAnswers", answers);
         });
     });
 
@@ -38,6 +38,7 @@ function onConnection(client) {
         }
 
         gameState.removePlayer(playerName).then(() => {
+            client.nsp.to(ROOM_NAME).emit("playerLeft", playerName);
             console.log(`Player ${playerName} left the game`);
         });
     });

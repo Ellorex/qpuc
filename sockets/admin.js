@@ -28,15 +28,15 @@ function onConnection(client) {
         }
 
         const countdownSec = 3;
-        playNs.emit("countdown", countdownSec);
+        playNs.to("room1").emit("countdown", countdownSec);
         setTimeout(() => {
             gameState.startRound(question, () => {
                 gameState.players.getPlayers().then(players => {
-                    playNs.emit("roundEnded");
-                    playNs.emit("leaderboard", players);
+                    playNs.to("room1").emit("roundEnded");
+                    playNs.to("room1").emit("leaderboard", players);
                 });
             }).then(() => {
-                playNs.emit('selectExistingQuestion', question);
+                playNs.to("room1").emit('selectExistingQuestion', question);
             });
         }, countdownSec * 1000);
     });
