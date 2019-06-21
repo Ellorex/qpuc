@@ -1,4 +1,6 @@
-var Question = require('../models/model');
+const gameState = require("../services/game-state");
+const Question = require('../models/model');
+
 /**
  * @param {SocketIO.Socket} client
  */
@@ -19,10 +21,25 @@ function onConnection(client) {
         });
     });
 
-    client.on('selectExistingQuestion', data => {
-        console.log(data)
-        playNs.emit('selectExistingQuestion', data);
-    })
+    client.on('selectExistingQuestion', question => {
+        console.log(question);
+        if (!gameState.roundEnded) {
+            return;
+        }
+
+        const countdownSec = 3;
+        playNs.emit("countdown", countdownSec);
+        setTimeout(() => {
+            gameState.startRound(question, () => {
+                gameState.players.getPlayers().then(players => {
+                    playNs.emit("roundEnded");
+                    playNs.emit("leaderboard", players);
+                });
+            }).then(() => {
+                playNs.emit('selectExistingQuestion', question);
+            });
+        }, countdownSec * 1000);
+    });
 }
 
 /**

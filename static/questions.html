@@ -11,38 +11,10 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="blocQuestion">
-            <h1 id="questionTitle">En attente d'une question</h1>
-        </div>
-        <div class="row blocAnswers" id="blocAnswers">
-            <div>Merci d'attendre un instant, le maître de jeu séléctionne une question</div>
-        </div>
-    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
 
-    <script>
-        var socket = io("/play", { transports: ['websocket'], upgrade: false });
-
-        var questionTitle = document.getElementById('questionTitle');
-        var blocAnswers = document.getElementById('blocAnswers');
-
-        socket.emit('joinGame', Date.now())
-        socket.on('selectExistingQuestion', data => {
-            var answers_str = "";
-            questionTitle.innerHTML = data.title;
-            var answers = data.answers;
-            console.log(data.title);
-
-            for (var i = 0; i < answers.length; i++) {
-
-                answers_str += "<div class='col-6 form-check'><input class='form-check-input' type='radio' name='name' id='" + answers[i].id + "'> <label class='form-check-label' for='" + answers[i].id + "'>" + answers[i].title + "</label></div>";
-            } answers
-            blocAnswers.innerHTML = answers_str;
-        })
-
-    </script>
+    
 </body>
 
 </html>

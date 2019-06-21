@@ -24,6 +24,14 @@ function onConnection(client) {
         });
     });
 
+    client.on("sendAnswer", answerIndex => {
+        gameState.setPlayerAnswer(playerName, answerIndex).then(() => {
+            return gameState.getPlayerAnswers();
+        }).then(answers => {
+            client.nsp.emit("playerAnswers", answers);
+        });
+    });
+
     client.on('disconnect', reason => {
         if (!playerName) {
             return;
