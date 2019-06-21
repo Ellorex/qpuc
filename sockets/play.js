@@ -6,18 +6,39 @@ const ROOM_NAME = "room1";
  * @param {SocketIO.Socket} client
  */
 function onConnection(client) {
+    let playerName;
+
     client.on('joinGame', name => {
         gameState.players.addPlayer(name).then(success => {
             console.log("added player", success);
             client.emit("joinGame", success);
             if (success) {
-                console.log(name + "joined the game");
+                playerName = name;
+                console.log(name + " joined the game");
                 client.join(ROOM_NAME);
                 gameState.getState().then(state => {
                     client.nsp.to(ROOM_NAME).emit("gameState", state);
                     client.to(ROOM_NAME).emit('playerJoined', name);
                 });
             }
+        });
+    });
+
+    client.on("sendAnswer", answerIndex => {
+        gameState.setPlayerAnswer(playerName, answerIndex).then(() => {
+            return gameState.getPlayerAnswers();
+        }).then(answers => {
+            client.nsp.emit("playerAnswers", answers);
+        });
+    });
+
+    client.on('disconnect', reason => {
+        if (!playerName) {
+            return;
+        }
+
+        gameState.removePlayer(playerName).then(() => {
+            console.log(`Player ${playerName} left the game`);
         });
     });
 }

@@ -116,6 +116,13 @@ class GameState {
             timeLeft: this.timeLeft
         };
     }
+
+    removePlayer(name) {
+        return Promise.all([
+            this.players.removePlayer(name),
+            this.playerAnswers.removePlayerAnswer(name)
+        ]);
+    }
 }
 
 module.exports = new GameState();
