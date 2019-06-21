@@ -70,7 +70,7 @@ class PlayerAnswersService {
             if (!answer) {
                 continue;
             }
-            
+
             answer.player = player;
             answers.push(answer);
         }
@@ -80,7 +80,7 @@ class PlayerAnswersService {
     clearPlayerAnswers() {
         return new Promise((resolve, reject) => {
             playersService.getPlayers().then(players => {
-                redis.del(players.map(x => x.name), (err, result) => {
+                redis.del(players.map(x => getAnswerKey(x.name)), (err, result) => {
                     if (err) {
                         reject(err);
                         return;
@@ -88,6 +88,22 @@ class PlayerAnswersService {
 
                     resolve();
                 });
+            });
+        });
+    }
+
+    /**
+     * @param { string } name
+     */
+    removePlayerAnswer(name) {
+        return new Promise((resolve, reject) => {
+            redis.del(getAnswerKey(name), (err, result) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                resolve();
             });
         });
     }
