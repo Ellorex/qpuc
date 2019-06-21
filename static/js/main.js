@@ -59,6 +59,15 @@ function displayRanking(state) {
         ranking.appendChild(li);
     })
 }
+if (document.getElementById('btnDisconnection')) {
+    var btnDisconnection = document.getElementById('btnDisconnection');
+
+    btnDisconnection.addEventListener('click', (e) => {
+        socket.disconnect();
+        document.getElementById('player-name-form-row').style.display = 'block';
+        document.getElementById('main-container').style.display = 'none';
+    })
+}
 
 function updateView(state) {
     displayPlayerList(state);
