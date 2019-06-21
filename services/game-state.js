@@ -123,6 +123,10 @@ class GameState {
             this.playerAnswers.removePlayerAnswer(name)
         ]);
     }
+
+    getCorrectAnswer() {
+        return this.currentQuestion.answers.find(x => x.correct);
+    }
 }
 
 module.exports = new GameState();

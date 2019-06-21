@@ -28,6 +28,7 @@ function onConnection(client) {
         gameState.setPlayerAnswer(playerName, answerIndex).then(() => {
             return gameState.getPlayerAnswers();
         }).then(answers => {
+            client.emit("answerResult", gameState.getCorrectAnswer());
             client.nsp.to(ROOM_NAME).emit("playerAnswers", answers);
         });
     });
