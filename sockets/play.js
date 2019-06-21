@@ -14,8 +14,8 @@ function onConnection(client) {
                 console.log(name + "joined the game");
                 client.join(ROOM_NAME);
                 gameState.getState().then(state => {
-                    client.to(ROOM_NAME).emit("gameState", state);
-                    client.broadcast.to(ROOM_NAME).emit('playerJoined', name);
+                    client.nsp.to(ROOM_NAME).emit("gameState", state);
+                    client.to(ROOM_NAME).emit('playerJoined', name);
                 });
             }
         });
