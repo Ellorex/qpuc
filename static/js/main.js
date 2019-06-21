@@ -9,6 +9,7 @@ var verifradios = false;
 var message = document.getElementById('message');
 var ranking = null;
 var question;
+var idAnswer;
 
 let state = null;
 if (document.getElementById('btnPlay')) {
@@ -117,7 +118,11 @@ submitAnswer.addEventListener('click', (e) => {
 });
 
 socket.on('answerResult', res => {
-    console.log(res)
+    if(res._id == idAnswer)  {
+        message.innerHTML = "<div class='alert alert-success text-center m-t-30'>Bonne réponse</div>"
+    } else {
+        message.innerHTML = "<div class='alert alert-warning text-center m-t-30'>Mauvaise réponse ! La bonne réponse était : " + res.title + "</div>"
+    }
 })
 
 
