@@ -37,3 +37,6 @@ h1 {
 .ranking-player-score {
     margin-left: 5%;
 }
+#main-container {
+    display: none;
+}

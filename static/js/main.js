@@ -11,20 +11,26 @@ var ranking = null;
 var question;
 var idAnswer;
 var displayCountdown = document.getElementById('displayCountdown');
+var playerName = document.getElementById('playerName');
+var displayPlayerName = document.getElementById('displayPlayerName');
 
 let state = null;
 if (document.getElementById('btnPlay')) {
     document.getElementById('btnPlay').addEventListener('click', (e) => {
-        playerName = document.getElementById('playerName').value;
+        playerName = playerName.value;
         socket.emit('joinGame', playerName);
     })
 }
 
 socket.on('joinGame', (success) => {
+    console.log('joingame')
     if (success) {
+        console.log('if success')
+        displayPlayerName.innerHTML = "Bienvenue " + playerName;
         document.getElementById('player-name-form-row').style.display = 'none';
         document.getElementById('main-container').style.display = 'flex';
     } else {
+        console.log('if not')
         var alert = document.createElement('div');
         alert.classList.add('alert');
         alert.classList.add('alert-danger');
