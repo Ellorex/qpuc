@@ -42,3 +42,7 @@ h1 {
     display: none;
     text-align: center;
 }
+
+#main-container {
+    display: none;
+}

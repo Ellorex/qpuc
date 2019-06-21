@@ -14,17 +14,20 @@ var displayCountdown = document.getElementById('displayCountdown');
 var hudQuestion = document.getElementById('hudQuestion');
 var displayEndGame = document.getElementById('displayEndGame');
 var connectedPlayers = document.getElementById('connectedPlayers');
+var playerName = document.getElementById('playerName');
+var displayPlayerName = document.getElementById('displayPlayerName');
 
 let state = null;
 if (document.getElementById('btnPlay')) {
     document.getElementById('btnPlay').addEventListener('click', (e) => {
-        playerName = document.getElementById('playerName').value;
+        playerName = playerName.value;
         socket.emit('joinGame', playerName);
     })
 }
 
 socket.on('joinGame', (success) => {
     if (success) {
+        displayPlayerName.innerHTML = "Bienvenue " + playerName;
         document.getElementById('player-name-form-row').style.display = 'none';
         document.getElementById('main-container').style.display = 'flex';
     } else {
@@ -44,8 +47,9 @@ socket.on("gameState", s => {
     updateView(state);
 });
 
-function displayPlayerList(state) {
-    state.players.forEach(player => {
+function displayPlayerList(players) {
+    listPlayer.innerHTML = "";
+    players.forEach(player => {
         var li = document.createElement('li');
         li.classList.add('player');
         var spanName = document.createElement('span');
@@ -77,8 +81,7 @@ if (document.getElementById('btnDisconnection')) {
 }
 
 function updateView(state) {
-    listPlayer.innerHTML = "";
-    displayPlayerList(state);
+    displayPlayerList(state.players);
 }
 socket.on("countdown", countdownSec => {
     animCountDown(countdownSec);
@@ -112,6 +115,10 @@ socket.on('selectExistingQuestion', data => {
 
 
 });
+
+socket.on("leaderboard", players => {
+    displayPlayerList(players);
+})
 
 submitAnswer.addEventListener('click', (e) => {
     message.innerHTML = "";

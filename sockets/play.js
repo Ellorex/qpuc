@@ -17,24 +17,16 @@ function onConnection(client) {
                 console.log(name + " joined the game");
                 client.join(ROOM_NAME);
                 gameState.getState().then(state => {
-                    client.nsp.to(ROOM_NAME).emit("gameState", state);
+                    client.emit("gameState", state);
                     client.to(ROOM_NAME).emit('playerJoined', name);
+                    client.to(ROOM_NAME).emit("leaderboard", state.players);
                 });
             }
         });
     });
 
     client.on("sendAnswer", answerIndex => {
-        gameState.setPlayerAnswer(playerName, answerIndex).then(saved => {
-            if (!saved) {
-                return;
-            }
-
-            gameState.getPlayerAnswers().then(answers => {
-                client.emit("answerResult", gameState.getCorrectAnswer());
-                client.nsp.to(ROOM_NAME).emit("playerAnswers", answers);
-            });
-        });
+        gameState.setPlayerAnswer(playerName, answerIndex);
     });
 
     client.on('disconnect', reason => {
@@ -42,9 +34,13 @@ function onConnection(client) {
             return;
         }
 
+        console.log(`Player ${playerName} left the game`);
+
         gameState.removePlayer(playerName).then(() => {
+            return gameState.players.getPlayers();
+        }).then(players => {
             client.nsp.to(ROOM_NAME).emit("playerLeft", playerName);
-            console.log(`Player ${playerName} left the game`);
+            client.nsp.to(ROOM_NAME).emit("leaderboard", players);
         });
     });
 }
