@@ -177,7 +177,7 @@ socket.on('gameEnded', () => {
     hudQuestion.style.display = 'none';
     displayEndGame.style.display = 'block';
     if (isPlayersScoreEqual) {
-        message += "Il n'y a aucun vaiqueur pour cette partie";
+        message += "Il n'y a aucun vainqueur pour cette partie";
     } else {
         message += getWinner(state.players) + " remport la partie";
     }
